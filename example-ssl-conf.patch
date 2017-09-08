@@ -1,0 +1,14 @@
+--- example-ssl.conf	2017-09-07 20:51:52.000000000 +0000
++++ example-ssl2.conf	2017-09-07 21:36:35.228619341 +0000
+@@ -68,11 +68,6 @@
+ 	SSLCertificateFile /etc/ssl/certs/ssl-cert-snakeoil.pem
+ 	SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+ 
+-	# http://qfox.nl/notes/1
+-	<Limit POST>
+-		SetEnv nokeepalive
+-	</Limit>
+-
+ 	<Location /site>
+ 		AddType text/plain .php .phtml .pht .phps .php3 .php3p .php4 .php5 .php6
+ 		php_admin_value engine Off

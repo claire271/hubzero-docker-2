@@ -1,0 +1,14 @@
+--- example-ssl.m4	2017-09-07 20:51:52.000000000 +0000
++++ example-ssl2.m4	2017-09-07 21:30:27.775972263 +0000
+@@ -187,11 +187,6 @@
+ 	SSLCertificateChainFile SSLCERTCHAINFILE
+ ')dnl
+ 
+-	# http://qfox.nl/notes/1
+-	<Limit POST>
+-		SetEnv nokeepalive
+-	</Limit>
+-
+ 	<Location /site>
+ 		AddType text/plain .php .phtml .pht .phps .php3 .php3p .php4 .php5 .php6
+ 		php_admin_value engine Off
