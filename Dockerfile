@@ -5,7 +5,7 @@ FROM debian:8.9
 
 RUN \
 echo "================================================================================"; \
-echo "Configuring APT"; \
+echo "Configuring APT and installing dependencies"; \
 echo "================================================================================"; \
 export DEBIAN_FRONTEND=noninteractive; \
 sed -i -e 's/exit 101/exit 0/' /usr/sbin/policy-rc.d; \
@@ -13,9 +13,14 @@ apt-get update; \
 apt-get install -y wget apt-utils; \
 echo "deb http://packages.hubzero.org/deb ellie-deb8 main" >> /etc/apt/sources.list; \
 echo "deb http://download.openvz.org/debian jessie main" >> /etc/apt/sources.list; \
+echo "deb http://httpredir.debian.org/debian jessie-backports main contrib non-free" >> /etc/apt/sources.list; \
 apt-key adv --keyserver pgp.mit.edu --recv-keys 143C99EF; \
 wget http://ftp.openvz.org/debian/archive.key -q -O - | apt-key add -; \
-apt-get update
+apt-get update; \
+apt-get install -y vim docker.io python3 python3-pip at; \
+apt-get remove python3-pip; \
+easy_install3 pip; \
+pip install docker pymysql
 
 RUN \
 echo "================================================================================"; \
@@ -29,7 +34,7 @@ echo "==========================================================================
 echo "Installing Hubzero-cms"; \
 echo "================================================================================"; \
 export DEBIAN_FRONTEND=noninteractive; \
-apt-get install -y hubzero-cms-2.1.0;
+apt-get install -y hubzero-cms-2.1.0
 
 ADD databasedump.sql /var/www/databasedump.sql
 ADD example-ssl-m4.patch /var/www/example-ssl-m4.patch
@@ -58,7 +63,7 @@ service mysql stop; \
 service apache2 stop; \
 cp /var/www/example/configuration.php /var/www/; \
 rm -rf /var/www/example/*; \
-apt-get install -y vim
+sed -i '/www-data/d' /etc/at.deny
 
 ADD ./run_internal.sh /run.sh
 CMD /run.sh
